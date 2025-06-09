@@ -19,7 +19,6 @@ const menuItems = [
 export default function Sidebar() {
   return (
     <aside className="w-[348px] h-[1024px] bg-indigo-200 flex flex-col justify-between text-slate-900">
-      {/* Top: Profile */}
       <div className="p-6">
         <div className="flex items-center gap-4">
           <img
@@ -35,8 +34,6 @@ export default function Sidebar() {
           </div>
         </div>
         <hr className="mt-6 mb-4 border-t border-white w-[284px]" />
-
-        {/* Menu Items */}
         <nav className="flex flex-col gap-2 mt-2">
           {menuItems.map((item, index) => (
             <div
@@ -55,8 +52,6 @@ export default function Sidebar() {
           ))}
         </nav>
       </div>
-
-      {/* Bottom: Log Out */}
       <div className="pb-6 flex justify-center">
         <button className="flex items-center gap-2 px-6 py-2 bg-yellow-200 rounded-[32px] text-slate-900 font-semibold">
           <img src={LogOutIcon} alt="Log Out Icon" className="w-5 h-5" />

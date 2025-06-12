@@ -9,6 +9,7 @@ import PositiveIcon from "../assets/Positive.png";
 import NegativeIcon from "../assets/Negative.png";
 import NeutralIcon from "../assets/Neutral.png";
 import AgeGraph from "../assets/Bar_Chart.png";
+import PieIcon from "../assets/Pie.png";
 
 export default function Dashboard() {
   return (
@@ -33,17 +34,17 @@ export default function Dashboard() {
           {
             title: "Create New Survey",
             icon: AddIcon,
-            bg: "bg-yellow-200",
+            bg: "bg-yellow-200 rounded-[16px]",
           },
           {
             title: "Explore Templates",
             icon: TemplatesIcon,
-            bg: "bg-indigo-200",
+            bg: "bg-indigo-200 rounded-[16px]",
           },
           {
             title: "Start with AI",
             icon: AiIcon,
-            bg: "bg-emerald-200",
+            bg: "bg-emerald-200 rounded-[16px]",
           },
         ].map(({ title, icon, bg }) => (
           <div
@@ -69,9 +70,13 @@ export default function Dashboard() {
               <div className="flex justify-between items-center mb-2">
                 <h2 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                   New Feature Feedback Form
-                  <img src={EditIcon} alt="Edit" className="w-4 h-4" />
+                  <img
+                    src={EditIcon}
+                    alt="Edit"
+                    className="w-6 h-6 cursor-pointer"
+                  />
                 </h2>
-                <button className="bg-emerald-100 text-emerald-800 text-sm px-4 py-1 rounded-full">
+                <button className="bg-emerald-100 text-emerald-800 text-sm px-4 py-1 rounded-full shadow-lg">
                   Open
                 </button>
               </div>
@@ -86,21 +91,21 @@ export default function Dashboard() {
                   />
                   <div className="ml-4 flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                      <img src={PositiveIcon} className="w-4 h-4" />
+                      <img src={PositiveIcon} className="w-6 h-6" />
                       <span className="bg-green-100 px-2 py-1 rounded text-green-800 text-xs">
-                        32% Positive
+                        Positive 32%
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <img src={NegativeIcon} className="w-4 h-4" />
+                      <img src={NegativeIcon} className="w-6 h-6" />
                       <span className="bg-red-100 px-2 py-1 rounded text-red-800 text-xs">
-                        45% Negative
+                        Negative 45%
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <img src={NeutralIcon} className="w-4 h-4" />
+                      <img src={NeutralIcon} className="w-6 h-6" />
                       <span className="bg-indigo-100 px-2 py-1 rounded text-indigo-800 text-xs">
-                        23% Neutral
+                        Neutral 23%
                       </span>
                     </div>
                   </div>
@@ -111,17 +116,17 @@ export default function Dashboard() {
                 {/* Right side of the line */}
                 <div className="w-1/2 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-base font-semibold mb-2">
+                    <h3 className="font-semibold mb-2 text-slate-900">
                       Responses (Age)
                     </h3>
                     <div className="flex gap-2 mb-2">
-                      <span className="bg-indigo-200 text-indigo-800 px-2 py-1 rounded-md text-xs">
+                      <span className="bg-yellow-200 text-slate-800 px-2 py-1 rounded-md text-xs">
                         Female 380
                       </span>
-                      <span className="bg-slate-200 text-slate-800 px-2 py-1 rounded-md text-xs">
+                      <span className=" bg-slate-800 text-white px-2 py-1 rounded-md text-xs">
                         Male 410
                       </span>
-                      <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded-md text-xs">
+                      <span className="bg-slate-200 text-slate-800 px-2 py-1 rounded-md text-xs">
                         Not Specified 210
                       </span>
                     </div>
@@ -136,11 +141,81 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-[16px] w-[680px] h-[417px] p-4 shadow">
-            <h2 className="text-lg font-semibold text-slate-900 mb-2">
-              Recent Surveys
-            </h2>
-            {/* content */}
+          <div className="bg-white rounded-[16px] w-[680px] p-4 shadow">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold text-slate-900">
+                Recent Surveys
+              </h2>
+              <div className="flex items-center gap-2 bg-[#DDE1FF] px-3 py-1 rounded-[16px] cursor-pointer">
+                <span className="text-sm text-slate-900">All</span>
+                <img src={ArrowdownIcon} alt="Dropdown" className="w-4 h-4" />
+              </div>
+            </div>
+
+            {/* Table Header */}
+            <div className="bg-[#DDE1FF] rounded-[32px] grid grid-cols-[2fr_1.5fr_2fr_1fr_auto] px-4 py-2 mb-2 text-sm font-medium text-slate-900">
+              <span>Name</span>
+              <span>Date</span>
+              <span>Completion Rate</span>
+              <span>Responses</span>
+              <span></span>
+            </div>
+
+            {/* Row */}
+            {[
+              {
+                name: "New Feature Feedbac...",
+                date: "May 30, 2025",
+                time: "09:00 AM",
+                rate: 80,
+                responses: 234,
+              },
+              {
+                name: "Website Usability Study",
+                date: "May 21, 2025",
+                time: "11:30 AM",
+                rate: 65,
+                responses: 145,
+              },
+              {
+                name: "Market Research - Ec...",
+                date: "May 1, 2025",
+                time: "08:00 AM",
+                rate: 72,
+                responses: 170,
+              },
+            ].map((item, index, arr) => (
+              <div key={index} className="mb-2">
+                <div className="grid grid-cols-[2fr_1.5fr_2fr_1fr_auto] items-center text-sm text-slate-900 px-4 py-2">
+                  <span>{item.name}</span>
+                  <div className="flex flex-col">
+                    <span>{item.date}</span>
+                    <span className="text-xs text-slate-500">{item.time}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-indigo-400 rounded-full"
+                        style={{ width: `${item.rate}%` }}
+                      />
+                    </div>
+                    <span className="text-sm font-medium">{item.rate}%</span>
+                  </div>
+                  <span className="m-8">{item.responses}</span>
+                  <img src={PieIcon} alt="Chart" className="w-6 h-6" />
+                </div>
+                {index < arr.length - 1 && (
+                  <div className="h-px bg-indigo-500 w-full mx-auto" />
+                )}
+              </div>
+            ))}
+
+            {/* Show more button */}
+            <div className="flex justify-center mt-4">
+              <button className="bg-yellow-200 cursor-pointer hover:bg-yellow-300 active:bg-yellow-400 transition-colors duration-200 text-slate-900 px-4 py-2 rounded-[32px] text-sm font-medium">
+                Show more
+              </button>
+            </div>
           </div>
         </div>
 

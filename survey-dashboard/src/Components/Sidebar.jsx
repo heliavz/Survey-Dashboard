@@ -44,7 +44,7 @@ export default function Sidebar() {
             <div
               key={item.label}
               className={`flex items-center gap-3 px-4 h-12 w-[300px] rounded-[32px] transition-all duration-200 ${
-                activeItem === item.label ? "bg-yellow-200" : ""
+                activeItem === item.label ? "bg-yellow-200 shadow-lg" : ""
               }`}
             >
               <img
@@ -65,7 +65,7 @@ export default function Sidebar() {
 
       <div className="pb-6 flex justify-center">
         <button className="flex items-center gap-2 px-6 py-2 bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-400 transition-colors duration-200 rounded-[32px] text-slate-900 font-semibold cursor-pointer w-[225px] justify-center">
-          <img src={LogOutIcon} alt="Log Out Icon" className="w-5 h-5" />
+          <img src={LogOutIcon} alt="Log Out Icon" className="w-8 h-8" />
           Log Out
         </button>
       </div>

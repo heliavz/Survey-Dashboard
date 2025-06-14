@@ -222,13 +222,13 @@ export default function Dashboard() {
         <div className="flex flex-col gap-4">
           <div className="bg-white rounded-[16px] w-[332px] h-[117px] p-4 flex items-center justify-center relative">
             <div className="w-1/2 flex flex-col items-center justify-center pr-4">
-              <p className="text-sm text-slate-900 font-medium">Open Survey</p>
-              <p className="text-xl font-bold">03</p>
+              <p className="text-m text-slate-900 font-medium">Open Survey</p>
+              <p className="text-2xl font-bold text-slate-900">03</p>
             </div>
             <div className="w-px bg-slate-300 h-full" />
             <div className="w-1/2 flex flex-col items-center justify-center pl-4">
-              <p className="text-sm text-slate-900 font-medium">Draft Survey</p>
-              <p className="text-xl font-bold">01</p>
+              <p className="text-m text-slate-900 font-medium">Draft Survey</p>
+              <p className="text-2xl font-bold text-slate-900">01</p>
             </div>
           </div>
 
@@ -236,7 +236,71 @@ export default function Dashboard() {
             <h2 className="text-lg font-semibold text-slate-900 mb-2">
               Recent Activities
             </h2>
-            {/* content*/}
+            {[
+              {
+                title: "Invited Team Member",
+                message: (
+                  <>
+                    <strong>Nina J.</strong> invited <strong>John D.</strong> to
+                    collaborate on <strong>“New Feature Feedback Form”</strong>.
+                  </>
+                ),
+                date: "May 28, 2025 – 10:42 AM",
+              },
+              {
+                title: "Updated Survey Description",
+                message: (
+                  <>
+                    <strong>You</strong> updated the description of{" "}
+                    <strong>“Market Research - Eco Products”</strong> to include
+                    a thank you message.
+                  </>
+                ),
+                date: "May 24, 2025 – 06:58 PM",
+              },
+              {
+                title: "Changed Survey Name",
+                message: (
+                  <>
+                    <strong>Alex K.</strong> renamed{" "}
+                    <strong>“UX Feedback Form”</strong> to{" "}
+                    <strong>“UX Feedback - Q2 Update”</strong>.
+                  </>
+                ),
+                date: "May 24, 2025 – 10:42 AM",
+              },
+              {
+                title: "Edited Question Type",
+                message: (
+                  <>
+                    <strong>You</strong> changed question 2 from “Long Answer”
+                    to “Short answer” in{" "}
+                    <strong>“New Feature Feedback Form”</strong>.
+                  </>
+                ),
+                date: "May 24, 2025 – 09:30 AM",
+              },
+            ].map((activity, index, arr) => (
+              <div key={index} className="mb-4">
+                <h3 className="text-sm font-semibold text-slate-900">
+                  {activity.title}
+                </h3>
+                <p className="text-sm text-slate-800">{activity.message}</p>
+                <p className="text-xs text-indigo-500 text-right mt-1">
+                  {activity.date}
+                </p>
+                {index < arr.length - 1 && (
+                  <div className="h-px bg-indigo-500 mt-2 mb-4 w-full" />
+                )}
+              </div>
+            ))}
+
+            {/* Show more button */}
+            <div className="flex justify-center mt-8">
+              <button className="bg-yellow-200 cursor-pointer hover:bg-yellow-300 active:bg-yellow-400 transition-colors duration-200 text-slate-900 px-4 py-2 rounded-[32px] text-sm font-medium">
+                Show more
+              </button>
+            </div>
           </div>
         </div>
       </div>

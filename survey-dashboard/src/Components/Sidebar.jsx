@@ -21,7 +21,7 @@ export default function Sidebar() {
   const [activeItem, setActiveItem] = useState("Dashboard");
 
   return (
-    <aside className="w-[348px] h-[1024px] bg-indigo-200 flex flex-col justify-between text-slate-900 transition-all duration-300">
+    <aside className="w-[348px] h-screen fixed left-0 top-0 bg-white flex flex-col justify-between text-slate-900 shadow transition-all duration-300">
       <div className="p-6">
         <div className="flex items-center gap-4">
           <img
@@ -44,7 +44,7 @@ export default function Sidebar() {
             <div
               key={item.label}
               className={`flex items-center gap-3 px-4 h-12 w-[300px] rounded-[32px] transition-all duration-200 ${
-                activeItem === item.label ? "bg-yellow-200 shadow-lg" : ""
+                activeItem === item.label ? "bg-indigo-200 shadow-lg" : ""
               }`}
             >
               <img

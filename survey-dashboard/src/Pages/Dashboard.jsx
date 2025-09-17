@@ -13,10 +13,11 @@ import PieIcon from "../assets/Pie.png";
 
 export default function Dashboard() {
   return (
-    <div className="p-6 flex flex-col gap-6 transition-all duration-300">
+    <div className="p-6 flex flex-col gap-6 transition-all duration-300 h-full">
       <h1 className="text-2xl font-bold text-white">Good Morning, Sarah!</h1>
 
-      <div className="relative w-[1028px] h-14 border border-indigo-200 bg-white rounded-[16px] flex items-center px-4">
+      {/* Search bar */}
+      <div className="relative w-full h-14 border border-indigo-200 bg-white rounded-[16px] flex items-center p-4">
         <img src={SearchIcon} alt="Search" className="w-5 h-5 mr-4" />
         <input
           type="text"
@@ -29,7 +30,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="flex gap-4">
+      {/* Action buttons */}
+      <div className="flex gap-4 w-full">
         {[
           {
             title: "Create New Survey",
@@ -49,7 +51,7 @@ export default function Dashboard() {
         ].map(({ title, icon, bg }) => (
           <div
             key={title}
-            className="w-[332px] h-[80px] bg-white text-slate-900 rounded-[32px] flex items-center gap-4 px-6 transition-all duration-300"
+            className="flex-1 min-w-[250px] h-[80px] bg-white text-slate-900 rounded-[32px] flex items-center gap-4 px-6 transition-all duration-300"
           >
             <div
               className={`w-10 h-10 rounded-[4px] flex items-center justify-center ${bg}`}
@@ -61,10 +63,12 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="flex gap-4">
-        <div className="flex flex-col gap-4">
+      {/* Main content grid */}
+      <div className="flex gap-6 w-full items-stretch">
+        {/* Left column */}
+        <div className="flex-1 flex flex-col gap-4">
           {/* Feedback Form Card */}
-          <div className="bg-white rounded-[16px] w-[680px] h-[264px] p-4 shadow relative flex">
+          <div className="bg-white rounded-[16px] w-full p-4 shadow relative flex">
             <div className="w-full">
               {/* Header */}
               <div className="flex justify-between items-center mb-2">
@@ -82,7 +86,7 @@ export default function Dashboard() {
               </div>
 
               <div className="flex mt-2 h-[180px]">
-                {/* Left side of the line */}
+                {/* Left side */}
                 <div className="flex w-1/2 pr-4 items-center">
                   <img
                     src={ImgFeedback}
@@ -113,13 +117,13 @@ export default function Dashboard() {
 
                 <div className="w-px bg-indigo-500 mx-4" />
 
-                {/* Right side of the line */}
+                {/* Right side */}
                 <div className="w-1/2 flex flex-col justify-between">
                   <div>
                     <h3 className="font-semibold mb-2 text-slate-900">
                       Responses (Age)
                     </h3>
-                    <div className="flex gap-2 mb-2">
+                    <div className="flex gap-2 mb-2 flex-wrap">
                       <span className="bg-yellow-200 text-slate-800 px-2 py-1 rounded-md text-xs">
                         Female 380
                       </span>
@@ -133,7 +137,7 @@ export default function Dashboard() {
                     <img
                       src={AgeGraph}
                       alt="Graph"
-                      className="w-[296px] h-[93px] object-contain"
+                      className="w-full max-w-[296px] h-[93px] object-contain"
                     />
                   </div>
                 </div>
@@ -141,7 +145,8 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-[16px] w-[680px] p-4 shadow">
+          {/* Recent Surveys */}
+          <div className="bg-white rounded-[16px] w-full p-4 shadow flex-1">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-slate-900">
                 Recent Surveys
@@ -161,7 +166,7 @@ export default function Dashboard() {
               <span></span>
             </div>
 
-            {/* Row */}
+            {/* Rows */}
             {[
               {
                 name: "New Feature Feedbac...",
@@ -185,10 +190,10 @@ export default function Dashboard() {
                 responses: 170,
               },
             ].map((item, index, arr) => (
-              <div key={index} className="mb-2">
+              <div key={index}>
                 <div className="grid grid-cols-[2fr_1.5fr_2fr_1fr_auto] items-center text-sm text-slate-900 px-4 py-2">
                   <span>{item.name}</span>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col leading-tight">
                     <span>{item.date}</span>
                     <span className="text-xs text-slate-500">{item.time}</span>
                   </div>
@@ -201,16 +206,16 @@ export default function Dashboard() {
                     </div>
                     <span className="text-sm font-medium">{item.rate}%</span>
                   </div>
-                  <span className="m-8">{item.responses}</span>
+                  <span className="text-center">{item.responses}</span>
                   <img src={PieIcon} alt="Chart" className="w-6 h-6" />
                 </div>
                 {index < arr.length - 1 && (
-                  <div className="h-px bg-indigo-500 w-full mx-auto" />
+                  <div className="h-px bg-indigo-500 mx-4" /> // divider closer
                 )}
               </div>
             ))}
 
-            {/* Show more button */}
+            {/* Show more */}
             <div className="flex justify-center mt-4">
               <button className="bg-yellow-200 cursor-pointer hover:bg-yellow-300 active:bg-yellow-400 transition-colors duration-200 text-slate-900 px-4 py-2 rounded-[32px] text-sm font-medium">
                 Show more
@@ -219,8 +224,10 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="bg-white rounded-[16px] w-[332px] h-[117px] p-4 flex items-center justify-center relative">
+        {/* Right column */}
+        <div className="w-[332px] flex flex-col gap-4">
+          {/* Open/Draft survey */}
+          <div className="bg-white rounded-[16px] w-full h-[117px] p-4 flex items-center justify-center relative">
             <div className="w-1/2 flex flex-col items-center justify-center pr-4">
               <p className="text-m text-slate-900 font-medium">Open Survey</p>
               <p className="text-2xl font-bold text-slate-900">03</p>
@@ -232,7 +239,8 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white rounded-[16px] w-[332px] h-[564px] p-4 shadow">
+          {/* Recent Activities */}
+          <div className="bg-white rounded-[16px] w-full p-4 shadow flex-1">
             <h2 className="text-lg font-semibold text-slate-900 mb-2">
               Recent Activities
             </h2>
@@ -295,7 +303,7 @@ export default function Dashboard() {
               </div>
             ))}
 
-            {/* Show more button */}
+            {/* Show more */}
             <div className="flex justify-center mt-8">
               <button className="bg-yellow-200 cursor-pointer hover:bg-yellow-300 active:bg-yellow-400 transition-colors duration-200 text-slate-900 px-4 py-2 rounded-[32px] text-sm font-medium">
                 Show more

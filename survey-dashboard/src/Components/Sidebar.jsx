@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import profilePic from "../assets/Profile.jpg";
 import DashboardIcon from "../assets/Dashboard.png";
@@ -9,20 +10,19 @@ import HelpIcon from "../assets/Help.png";
 import LogOutIcon from "../assets/Log_out.png";
 
 const menuItems = [
-  { label: "Dashboard", icon: DashboardIcon },
-  { label: "My Surveys", icon: MySurveysIcon },
-  { label: "Reports", icon: ReportsIcon },
-  { label: "Notifications", icon: NotificationsIcon },
-  { label: "Templates", icon: TemplatesIcon },
-  { label: "Help", icon: HelpIcon },
+  { label: "Dashboard", icon: DashboardIcon, path: "/dashboard" },
+  { label: "My Surveys", icon: MySurveysIcon, path: "/my-surveys" },
+  { label: "Reports", icon: ReportsIcon, path: "/reports" },
+  { label: "Notifications", icon: NotificationsIcon, path: "/notifications" },
+  { label: "Templates", icon: TemplatesIcon, path: "/templates" },
+  { label: "Help", icon: HelpIcon, path: "/help" },
 ];
 
 export default function Sidebar() {
-  const [activeItem, setActiveItem] = useState("Dashboard");
-
   return (
     <aside className="w-[348px] h-screen fixed left-0 top-0 bg-white flex flex-col justify-between text-slate-900 shadow transition-all duration-300">
       <div className="p-6">
+        {/* Profile */}
         <div className="flex items-center gap-4">
           <img
             src={profilePic}
@@ -39,30 +39,32 @@ export default function Sidebar() {
 
         <hr className="mt-6 mb-4 border-t border-white w-[284px]" />
 
+        {/* Nav */}
         <nav className="flex flex-col gap-2 mt-2">
           {menuItems.map((item) => (
-            <div
+            <NavLink
               key={item.label}
-              className={`flex items-center gap-3 px-4 h-12 w-[300px] rounded-[32px] transition-all duration-200 ${
-                activeItem === item.label ? "bg-indigo-200 shadow-lg" : ""
-              }`}
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 h-12 w-[300px] rounded-[32px] transition-all duration-200 ${
+                  isActive ? "bg-indigo-200 shadow-lg" : ""
+                }`
+              }
             >
               <img
                 src={item.icon}
                 alt={`${item.label} Icon`}
                 className="w-6 h-6"
               />
-              <span
-                className="text-slate-900 hover:text-indigo-500 cursor-pointer"
-                onClick={() => setActiveItem(item.label)}
-              >
+              <span className="text-slate-900 hover:text-indigo-500 cursor-pointer">
                 {item.label}
               </span>
-            </div>
+            </NavLink>
           ))}
         </nav>
       </div>
 
+      {/* Logout button */}
       <div className="pb-6 flex justify-center">
         <button className="flex items-center gap-2 px-6 py-2 bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-400 transition-colors duration-200 rounded-[32px] text-slate-900 font-semibold cursor-pointer w-[225px] justify-center">
           <img src={LogOutIcon} alt="Log Out Icon" className="w-8 h-8" />

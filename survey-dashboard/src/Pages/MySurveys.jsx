@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import SearchIcon from "../assets/Search.png";
 import ArrowdownIcon from "../assets/Arrow_down.png";
 
 export default function MySurveys() {
-  const surveys = [
+  const navigate = useNavigate();
+  const [surveys, setSurveys] = useState([
     {
       name: "New Feature Feedback",
       date: "May 30, 2025",
@@ -84,7 +86,7 @@ export default function MySurveys() {
       responses: 160,
       status: "open",
     },
-  ];
+  ]);
 
   const getStatusStyles = (status) => {
     switch (status) {
@@ -99,6 +101,58 @@ export default function MySurveys() {
     }
   };
 
+  // Handle Delete
+  const handleDelete = (name) => {
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete "${name}"?`
+    );
+    if (confirmDelete) {
+      setSurveys(surveys.filter((s) => s.name !== name));
+    }
+  };
+
+  // Handle Edit
+  const handleEdit = (name) => {
+    navigate(`/survey/${encodeURIComponent(name)}`);
+  };
+
+  // Handle Export (CSV download)
+  const handleExport = (survey) => {
+    const csvContent = [
+      ["Name", "Date", "Time", "Completion Rate", "Responses", "Status"],
+      [
+        survey.name,
+        survey.date,
+        survey.time,
+        survey.rate,
+        survey.responses,
+        survey.status,
+      ],
+    ]
+      .map((row) => row.join(","))
+      .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute(
+      "download",
+      `${survey.name.replace(/\s+/g, "_")}_export.csv`
+    );
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Add state for search term
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filter surveys based on search term
+  const filteredSurveys = surveys.filter((survey) =>
+    survey.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="p-6 flex flex-col gap-6 transition-all duration-300 h-full">
       <h1 className="text-2xl font-bold text-white">My Surveys</h1>
@@ -109,6 +163,8 @@ export default function MySurveys() {
         <input
           type="text"
           placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="flex-1 h-full border-none focus:outline-none text-slate-900 bg-transparent"
         />
         <div className="flex items-center gap-2 pr-2 bg-indigo-200 p-2 rounded-[16px]">
@@ -138,7 +194,7 @@ export default function MySurveys() {
         </div>
 
         {/* Table Rows */}
-        {surveys.map((survey, index) => (
+        {filteredSurveys.map((survey, index) => (
           <div key={index}>
             <div className="grid grid-cols-[1fr_0.5fr_1.5fr_0.45fr_0.30fr_1.5fr] items-center text-sm text-slate-900 px-4 py-2 gap-x-4">
               <span className="hover:cursor-pointer hover:text-indigo-600">
@@ -173,13 +229,22 @@ export default function MySurveys() {
 
               {/* Actions */}
               <div className="flex justify-center gap-4">
-                <button className="text-red-600 text-xs font-semibold hover:cursor-pointer hover:text-red-400">
+                <button
+                  onClick={() => handleDelete(survey.name)}
+                  className="text-red-600 text-xs font-semibold hover:cursor-pointer hover:text-red-400"
+                >
                   Delete
                 </button>
-                <button className="text-purple-600 text-xs font-semibold hover:cursor-pointer hover:text-purple-400 ">
+                <button
+                  onClick={() => handleEdit(survey.name)}
+                  className="text-purple-600 text-xs font-semibold hover:cursor-pointer hover:text-purple-400 "
+                >
                   Edit
                 </button>
-                <button className="text-slate-900 text-xs font-semibold hover:cursor-pointer hover:text-slate-400">
+                <button
+                  onClick={() => handleExport(survey)}
+                  className="text-slate-900 text-xs font-semibold hover:cursor-pointer hover:text-slate-400"
+                >
                   Export
                 </button>
               </div>

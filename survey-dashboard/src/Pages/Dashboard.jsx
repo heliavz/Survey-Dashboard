@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import AddIcon from "../assets/Add.png";
 import TemplatesIcon from "../assets/Templates.png";
 import AiIcon from "../assets/AI.png";
@@ -37,20 +38,24 @@ export default function Dashboard() {
             title: "Create New Survey",
             icon: AddIcon,
             bg: "bg-yellow-200 rounded-[16px]",
+            to: "/new-survey",
           },
           {
             title: "Explore Templates",
             icon: TemplatesIcon,
             bg: "bg-indigo-200 rounded-[16px]",
+            to: "/templates",
           },
           {
             title: "Start with AI",
             icon: AiIcon,
             bg: "bg-emerald-200 rounded-[16px]",
+            to: "/ai",
           },
-        ].map(({ title, icon, bg }) => (
-          <div
+        ].map(({ title, icon, bg, to }) => (
+          <Link
             key={title}
+            to={to}
             className="flex-1 min-w-[250px] h-[80px] bg-white text-slate-900 rounded-[32px] flex items-center gap-4 px-6 transition-all duration-300"
           >
             <div
@@ -59,7 +64,7 @@ export default function Dashboard() {
               <img src={icon} alt={title} className="w-8 h-8" />
             </div>
             <p className="text-base font-semibold">{title}</p>
-          </div>
+          </Link>
         ))}
       </div>
 
@@ -192,7 +197,13 @@ export default function Dashboard() {
             ].map((item, index, arr) => (
               <div key={index}>
                 <div className="grid grid-cols-[2fr_1.5fr_2fr_1fr_auto] items-center text-sm text-slate-900 px-4 py-2">
-                  <span>{item.name}</span>
+                  {/* 👇 make survey name clickable */}
+                  <Link
+                    to={`/survey/${item.name}`}
+                    className="hover:underline cursor-pointer"
+                  >
+                    {item.name}
+                  </Link>
                   <div className="flex flex-col leading-tight">
                     <span>{item.date}</span>
                     <span className="text-xs text-slate-500">{item.time}</span>
@@ -210,16 +221,19 @@ export default function Dashboard() {
                   <img src={PieIcon} alt="Chart" className="w-6 h-6" />
                 </div>
                 {index < arr.length - 1 && (
-                  <div className="h-px bg-indigo-500 mx-4" /> // divider closer
+                  <div className="h-px bg-indigo-500 mx-4" />
                 )}
               </div>
             ))}
 
             {/* Show more */}
             <div className="flex justify-center mt-4">
-              <button className="bg-yellow-200 cursor-pointer hover:bg-yellow-300 active:bg-yellow-400 transition-colors duration-200 text-slate-900 px-4 py-2 rounded-[32px] text-sm font-medium">
+              <Link
+                to="/my-surveys"
+                className="bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-400 transition-colors duration-200 text-slate-900 px-4 py-2 rounded-[32px] text-sm font-medium"
+              >
                 Show more
-              </button>
+              </Link>
             </div>
           </div>
         </div>

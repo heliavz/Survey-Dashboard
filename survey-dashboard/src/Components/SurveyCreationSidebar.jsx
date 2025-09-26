@@ -1,8 +1,9 @@
 import { useState } from "react";
+import profilePic from "../assets/Profile.jpg";
 import ArrowdownIcon from "../assets/Arrow_down.png";
 import ArrowupIcon from "../assets/Arrow_up.png";
 
-export default function SurveyCreationSidebar({ user }) {
+export default function SurveyCreationSidebar({ user, onAddItem }) {
   const [openSection, setOpenSection] = useState("questions");
 
   const questions = [
@@ -27,7 +28,7 @@ export default function SurveyCreationSidebar({ user }) {
     return (
       <div>
         <button
-          className="w-full flex justify-between items-center bg-purple-500 text-white px-4 py-2 rounded-[12px] mt-4"
+          className="w-full flex justify-between items-center bg-purple-400 text-black px-4 py-2 rounded-[12px] mt-4"
           onClick={() => setOpenSection(isOpen ? "" : title)}
         >
           <span className="capitalize">{title}</span>
@@ -42,6 +43,7 @@ export default function SurveyCreationSidebar({ user }) {
             {items.map((item) => (
               <div
                 key={item.name}
+                onClick={() => onAddItem(title, item)}
                 className="flex items-center gap-2 px-4 py-2 hover:bg-purple-100 rounded-md cursor-pointer"
               >
                 <span>{item.icon}</span>
@@ -56,14 +58,21 @@ export default function SurveyCreationSidebar({ user }) {
 
   return (
     <aside className="w-[348px] bg-white h-screen shadow-lg flex flex-col p-4">
-      {/* User Section */}
-      <div className="mb-6">
-        <p className="font-semibold text-slate-900">
-          {user?.name || "Sarah Miller"}
-        </p>
-        <p className="text-sm text-gray-500">
-          {user?.email || "sarahmiller@gmail.com"}
-        </p>
+      {/* Profile Section */}
+      <div className="flex items-center gap-4 mb-6">
+        <img
+          src={profilePic}
+          alt="User"
+          className="w-14 h-14 rounded-full object-cover"
+        />
+        <div>
+          <p className="font-semibold text-slate-900">
+            {user?.name || "Sarah Miller"}
+          </p>
+          <p className="text-sm text-gray-500">
+            {user?.email || "sarahmiller@gmail.com"}
+          </p>
+        </div>
       </div>
 
       <Section title="questions" items={questions} />

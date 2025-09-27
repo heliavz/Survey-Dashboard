@@ -54,7 +54,10 @@ export default function QuestionRenderer({ question, onChange }) {
           <button
             className="text-sm mt-2 underline"
             onClick={() =>
-              onChange({ ...question, options: [...question.options, ""] })
+              onChange({
+                ...question,
+                options: [...(question.options || []), ""],
+              })
             }
           >
             + Add Option
@@ -91,7 +94,10 @@ export default function QuestionRenderer({ question, onChange }) {
           <button
             className="text-sm mt-2 underline"
             onClick={() =>
-              onChange({ ...question, options: [...question.options, ""] })
+              onChange({
+                ...question,
+                options: [...(question.options || []), ""],
+              })
             }
           >
             + Add Option

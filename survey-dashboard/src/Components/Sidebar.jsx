@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 import profilePic from "../assets/Profile.jpg";
 import DashboardIcon from "../assets/Dashboard.png";
 import MySurveysIcon from "../assets/Surveys.png";
@@ -20,7 +19,8 @@ const menuItems = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-[348px] h-screen fixed left-0 top-0 bg-white flex flex-col justify-between text-slate-900 shadow transition-all duration-300">
+    // Hidden on small screens, visible/fixed on md+
+    <aside className="hidden md:flex md:w-[348px] md:h-screen md:fixed md:left-0 md:top-0 bg-white flex-col justify-between text-slate-900 shadow transition-all duration-300">
       <div className="p-6">
         {/* Profile */}
         <div className="flex items-center gap-4">
@@ -46,7 +46,7 @@ export default function Sidebar() {
               key={item.label}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 h-12 w-[300px] rounded-[32px] transition-all duration-200 ${
+                `flex items-center gap-3 px-4 h-12 md:w-[300px] rounded-[32px] transition-all duration-200 ${
                   isActive ? "bg-indigo-200 shadow-lg" : ""
                 }`
               }

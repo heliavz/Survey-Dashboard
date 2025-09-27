@@ -3,7 +3,11 @@ import profilePic from "../assets/Profile.jpg";
 import ArrowdownIcon from "../assets/Arrow_down.png";
 import ArrowupIcon from "../assets/Arrow_up.png";
 
-export default function SurveyCreationSidebar({ user, onAddItem }) {
+export default function SurveyCreationSidebar({
+  user,
+  onAddItem,
+  className = "",
+}) {
   const [openSection, setOpenSection] = useState("questions");
 
   const questions = [
@@ -28,7 +32,7 @@ export default function SurveyCreationSidebar({ user, onAddItem }) {
     return (
       <div>
         <button
-          className="w-full flex justify-between items-center bg-purple-400 text-black px-4 py-2 rounded-[12px] mt-4"
+          className="w-full flex justify-between items-center bg-purple-500 text-white px-4 py-2 rounded-[12px] mt-4"
           onClick={() => setOpenSection(isOpen ? "" : title)}
         >
           <span className="capitalize">{title}</span>
@@ -38,12 +42,13 @@ export default function SurveyCreationSidebar({ user, onAddItem }) {
             className="w-4 h-4"
           />
         </button>
+
         {isOpen && (
           <div className="mt-2 flex flex-col gap-2 text-black">
             {items.map((item) => (
               <div
                 key={item.name}
-                onClick={() => onAddItem(title, item)}
+                onClick={() => onAddItem?.(title, item)}
                 className="flex items-center gap-2 px-4 py-2 hover:bg-purple-100 rounded-md cursor-pointer"
               >
                 <span>{item.icon}</span>
@@ -57,7 +62,9 @@ export default function SurveyCreationSidebar({ user, onAddItem }) {
   };
 
   return (
-    <aside className="w-[348px] bg-white h-screen shadow-lg flex flex-col p-4">
+    <aside
+      className={`w-[348px] bg-white h-full shadow-lg flex flex-col p-4 ${className}`}
+    >
       {/* Profile Section */}
       <div className="flex items-center gap-4 mb-6">
         <img

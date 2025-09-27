@@ -10,6 +10,7 @@ import UploadIcon from "../assets/Add_banner.png";
 import BannerBg from "../assets/Banner_bg.png";
 import Wave from "../assets/Wave.png";
 import ArrowRight from "../assets/Arrow_right.png";
+import { toast } from "react-hot-toast";
 
 export default function SurveyCreation() {
   const navigate = useNavigate();
@@ -20,11 +21,14 @@ export default function SurveyCreation() {
   const [description, setDescription] = useState("");
   const [questions, setQuestions] = useState([]);
   const [elements, setElements] = useState([]);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Add question manually
   const addQuestion = () => {
-    const newQ = { type: "Short Answer", label: "", options: [] };
-    setQuestions([...questions, newQ]);
+    setQuestions([
+      ...questions,
+      { type: "Short Answer", label: "", options: [] },
+    ]);
   };
 
   // Add items from sidebar
@@ -35,34 +39,80 @@ export default function SurveyCreation() {
         label: "",
         options: item.name.includes("Choice") ? [""] : [],
       };
-      setQuestions([...questions, newQ]);
+      setQuestions((prev) => [...prev, newQ]);
+      setMobileSidebarOpen(false);
     } else if (section === "elements") {
-      setElements([...elements, { type: item.name }]);
+      setElements((prev) => [...prev, { type: item.name, content: "" }]);
+      setMobileSidebarOpen(false);
     }
   };
 
-  // Update question handler
-  const handleQuestionChange = (index, updatedQuestion) => {
-    const updated = [...questions];
-    updated[index] = updatedQuestion;
-    setQuestions(updated);
+  // Save / Share handlers use toast to simulate action
+  const handleSave = () => {
+    const id = toast.loading("Saving survey...");
+    setTimeout(() => {
+      toast.success("Survey saved", { id });
+    }, 700);
+  };
+
+  const handleShare = async () => {
+    const id = toast.loading("Preparing share link...");
+    setTimeout(async () => {
+      try {
+        await navigator.clipboard?.writeText(window.location.href);
+        toast.success("Share link copied to clipboard", { id });
+      } catch {
+        toast.success("Share link ready (couldn't copy)", { id });
+      }
+    }, 700);
   };
 
   return (
     <div className="flex w-full">
-      <SurveyCreationSidebar onAddItem={handleAddItem} />
+      {/* Desktop sidebar (visible md+) */}
+      <div className="hidden md:block">
+        <SurveyCreationSidebar onAddItem={handleAddItem} />
+      </div>
 
+      {/* Main content */}
       <main className="flex-1 bg-slate-900 text-white p-6 flex flex-col gap-6 h-screen overflow-y-auto">
         {/* Top bar */}
         <div className="flex items-center">
+          {/* mobile: show hamburger to open the creation sidebar */}
+          <button
+            className="md:hidden mr-3 p-2 rounded hover:bg-white/10"
+            onClick={() => setMobileSidebarOpen(true)}
+            aria-label="Open menu"
+          >
+            {/* simple hamburger */}
+            <div className="w-5 h-5 flex flex-col justify-between">
+              <span className="block h-[2px] w-full bg-white" />
+              <span className="block h-[2px] w-full bg-white" />
+              <span className="block h-[2px] w-full bg-white" />
+            </div>
+          </button>
+
           <button
             onClick={() => navigate("/dashboard")}
-            className="hover:opacity-80 cursor-pointer"
+            className="hover:opacity-80 cursor-pointer mr-2"
           >
             <img src={ArrowleftIcon} alt="Back" />
           </button>
-          <h1 className="text-2xl font-bold ml-2">Create New Survey</h1>
+          <h1 className="text-2xl font-bold">Create New Survey</h1>
         </div>
+
+        {/* mobile overlay sidebar */}
+        {mobileSidebarOpen && (
+          <div className="fixed inset-0 z-50 md:hidden">
+            <div
+              className="absolute inset-0 bg-black/40"
+              onClick={() => setMobileSidebarOpen(false)}
+            />
+            <div className="absolute left-0 top-0 w-[300px] h-full bg-white p-4 overflow-auto">
+              <SurveyCreationSidebar onAddItem={handleAddItem} />
+            </div>
+          </div>
+        )}
 
         {/* Main content grid */}
         <div className="flex gap-6 w-full items-stretch">
@@ -75,14 +125,20 @@ export default function SurveyCreation() {
                 value={surveyName}
                 onChange={(e) => setSurveyName(e.target.value)}
                 placeholder="Survey Title"
-                className="text-lg font-semibold text-gray-400 focus:text-slate-900 focus:outline-none w-full"
+                className="text-lg font-semibold text-gray-700 focus:text-slate-900 focus:outline-none w-full"
               />
               <div className="flex gap-2 flex-shrink-0">
-                <button className="flex items-center gap-2 bg-[#DDE1FF] px-4 py-2 rounded-[8px] hover:bg-indigo-200 transition-colors shadow whitespace-nowrap">
+                <button
+                  onClick={handleShare}
+                  className="flex items-center gap-2 bg-[#DDE1FF] px-4 py-2 rounded-[8px] hover:bg-indigo-200 transition-colors shadow whitespace-nowrap"
+                >
                   <img src={ShareIcon} alt="Share" className="w-4 h-4" />
                   Share
                 </button>
-                <button className="flex items-center gap-2 bg-indigo-200 px-4 py-2 rounded-[8px] hover:bg-indigo-300 transition-colors shadow whitespace-nowrap">
+                <button
+                  onClick={handleSave}
+                  className="flex items-center gap-2 bg-indigo-200 px-4 py-2 rounded-[8px] hover:bg-indigo-300 transition-colors shadow whitespace-nowrap"
+                >
                   <img src={SaveIcon} alt="Save" className="w-4 h-4" />
                   Save
                 </button>
@@ -135,7 +191,7 @@ export default function SurveyCreation() {
               </div>
 
               {questions.length === 0 ? (
-                <div className="bg-purple-200 text-black px-4 py-4 rounded-md cursor-text">
+                <div className="bg-purple-600 text-white px-4 py-4 rounded-md cursor-text">
                   <span className="font-medium">Question 1</span>
                 </div>
               ) : (
@@ -144,7 +200,11 @@ export default function SurveyCreation() {
                     <QuestionRenderer
                       key={i}
                       question={q}
-                      onChange={(updatedQ) => handleQuestionChange(i, updatedQ)}
+                      onChange={(updatedQ) => {
+                        const newQs = [...questions];
+                        newQs[i] = updatedQ;
+                        setQuestions(newQs);
+                      }}
                     />
                   ))}
                 </ul>
@@ -157,7 +217,15 @@ export default function SurveyCreation() {
                 <h3 className="text-md font-semibold mb-2">Elements</h3>
                 <ul className="pl-2 text-sm text-slate-800 flex flex-col gap-3">
                   {elements.map((el, i) => (
-                    <ElementRenderer key={i} element={el} />
+                    <ElementRenderer
+                      key={i}
+                      element={el}
+                      onChange={(updatedEl) => {
+                        const newEls = [...elements];
+                        newEls[i] = updatedEl;
+                        setElements(newEls);
+                      }}
+                    />
                   ))}
                 </ul>
               </div>
@@ -167,7 +235,7 @@ export default function SurveyCreation() {
           {/* Right column */}
           <div className="w-[332px] flex flex-col gap-4">
             {/* AI Card */}
-            <div className="relative bg-purple-400 rounded-[16px] p-6 flex flex-col items-center justify-center text-center text-black shadow-[0_0_20px_rgba(255,165,0,0.7)]">
+            <div className="relative bg-purple-400 rounded-[16px] p-6 flex flex-col items-center justify-center text-center text-black shadow-[0_0_20px_rgba(255,165,0,0.7)] overflow-hidden">
               <img
                 src={Wave}
                 alt="Wave background"
@@ -196,7 +264,8 @@ export default function SurveyCreation() {
                       key={i}
                       className="flex justify-between items-center py-1"
                     >
-                      {q.label || `Q${i + 1}`}
+                      {/* show the current label if available */}
+                      {q.label || q.type || `Q${i + 1}`}
                       <img src={ArrowRight} alt="Arrow" className="w-4 h-4" />
                     </li>
                   ))}

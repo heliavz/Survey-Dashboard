@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ProfileMenu from "./ProfileMenu"; // ⬅️ new
 import profilePic from "../assets/Profile.jpg";
 import ArrowdownIcon from "../assets/Arrow_down.png";
 import ArrowupIcon from "../assets/Arrow_up.png";
@@ -28,7 +29,6 @@ export default function SurveyCreationSidebar({
 
   const Section = ({ title, items }) => {
     const isOpen = openSection === title;
-
     return (
       <div>
         <button
@@ -65,21 +65,26 @@ export default function SurveyCreationSidebar({
     <aside
       className={`w-[348px] bg-white h-full shadow-lg flex flex-col p-4 ${className}`}
     >
-      {/* Profile Section */}
-      <div className="flex items-center gap-4 mb-6">
-        <img
-          src={profilePic}
-          alt="User"
-          className="w-14 h-14 rounded-full object-cover"
-        />
-        <div>
-          <p className="font-semibold text-slate-900">
-            {user?.name || "Sarah Miller"}
-          </p>
-          <p className="text-sm text-gray-500">
-            {user?.email || "sarahmiller@gmail.com"}
-          </p>
+      {/* Profile + Menu */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-4">
+          <img
+            src={profilePic}
+            alt="User"
+            className="w-14 h-14 rounded-full object-cover"
+          />
+          <div>
+            <p className="font-semibold text-slate-900">
+              {user?.name || "Sarah Miller"}
+            </p>
+            <p className="text-sm text-gray-500">
+              {user?.email || "sarahmiller@gmail.com"}
+            </p>
+          </div>
         </div>
+
+        {/* Profile menu icon */}
+        <ProfileMenu />
       </div>
 
       <Section title="questions" items={questions} />

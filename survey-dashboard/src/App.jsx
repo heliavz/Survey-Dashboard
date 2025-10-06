@@ -6,6 +6,8 @@ import Notifications from "./Pages/Notifications";
 import Templates from "./Pages/Templates";
 import SurveyDetail from "./Pages/SurveyDetail";
 import SurveyCreation from "./Pages/SurveyCreation";
+import ProfilePage from "./Pages/ProfilePage";
+import PreferencesPage from "./Pages/PreferencesPage";
 import { Toaster } from "react-hot-toast";
 
 function MainLayout() {
@@ -23,13 +25,13 @@ export default function App() {
   return (
     <>
       {/* global Toaster for toast messages */}
-      <Toaster position="top-right" />
+      <Toaster position="top-right" toastOptions={{ duration: 2500 }} />
 
       <Routes>
         {/* Standalone Survey Creation page (no main Sidebar in layout) */}
         <Route path="/new-survey" element={<SurveyCreation />} />
 
-        {/* All other pages use MainLayout (with the main Sidebar) */}
+        {/* All other pages use MainLayout (with Sidebar) */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="dashboard" element={<Dashboard />} />
@@ -37,6 +39,8 @@ export default function App() {
           <Route path="survey/:name" element={<SurveyDetail />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="templates" element={<Templates />} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="preferences" element={<PreferencesPage />} />
         </Route>
       </Routes>
     </>

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import ProfileMenu from "./ProfileMenu"; // ⬅️ new
 import profilePic from "../assets/Profile.jpg";
 import DashboardIcon from "../assets/Dashboard.png";
 import MySurveysIcon from "../assets/Surveys.png";
@@ -19,27 +20,31 @@ const menuItems = [
 
 export default function Sidebar() {
   return (
-    // Hidden on small screens, visible/fixed on md+
     <aside className="hidden md:flex md:w-[348px] md:h-screen md:fixed md:left-0 md:top-0 bg-white flex-col justify-between text-slate-900 shadow transition-all duration-300">
       <div className="p-6">
-        {/* Profile */}
-        <div className="flex items-center gap-4">
-          <img
-            src={profilePic}
-            alt="User"
-            className="w-14 h-14 rounded-full object-cover"
-          />
-          <div>
-            <p className="text-base font-semibold leading-tight">
-              Sarah Miller
-            </p>
-            <p className="text-sm opacity-80">sarahmiller@email.com</p>
+        {/* Profile Section */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-4">
+            <img
+              src={profilePic}
+              alt="User"
+              className="w-14 h-14 rounded-full object-cover"
+            />
+            <div>
+              <p className="text-base font-semibold leading-tight">
+                Sarah Miller
+              </p>
+              <p className="text-sm opacity-80">sarahmiller@email.com</p>
+            </div>
           </div>
+
+          {/* Profile menu button */}
+          <ProfileMenu />
         </div>
 
         <hr className="mt-6 mb-4 border-t border-white w-[284px]" />
 
-        {/* Nav */}
+        {/* Nav Links */}
         <nav className="flex flex-col gap-2 mt-2">
           {menuItems.map((item) => (
             <NavLink
@@ -64,7 +69,7 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Logout button */}
+      {/* Logout Button */}
       <div className="pb-6 flex justify-center">
         <button className="flex items-center gap-2 px-6 py-2 bg-yellow-200 hover:bg-yellow-300 active:bg-yellow-400 transition-colors duration-200 rounded-[32px] text-slate-900 font-semibold cursor-pointer w-[225px] justify-center">
           <img src={LogOutIcon} alt="Log Out Icon" className="w-8 h-8" />
